@@ -1,6 +1,13 @@
 # Anti-Duplicator
 
-[TODO. There will be project description]
+This script scans all files in a given directory and all its subdirectories. After that it prints out a list of duplicate files.
+Duplicates are the files with the same name and size.
+
+
+# How to use
+
+1. Run command `python duplicates.py path_to_directory_with_files` 
+
 
 # Project Goals
 
