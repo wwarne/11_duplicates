@@ -44,7 +44,7 @@ def create_parser():
 
 if __name__ == '__main__':
     parser = create_parser()
-    namespace = parser.parse_args(['z:\\temp'])
+    namespace = parser.parse_args()
     print('Scanning files.')
     all_files = build_filelist(namespace.path)
     print('Finding duplicates.')
