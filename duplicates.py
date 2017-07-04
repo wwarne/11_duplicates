@@ -1,45 +1,33 @@
 import argparse
 import os
-from collections import namedtuple
-from itertools import combinations
-
-FileInfo = namedtuple('FileInfo', ['name', 'size', 'path'])
-
-
-def cmp(file1, file2):
-    return file1.name == file2.name and file1.size == file2.size
+from collections import defaultdict
 
 
 def build_filelist(path):
-    files = []
+    files_data = defaultdict(list)
     for dirpath, dirnames, filenames in os.walk(path):
-        for one_file in filenames:
-            path = os.path.join(dirpath, one_file)
-            info = FileInfo(name=one_file, size=os.path.getsize(path), path=path)
-            files.append(info)
-    return files
+        for filename in filenames:
+            path = os.path.join(dirpath, filename)
+            files_data[filename + str(os.path.getsize(path))].append(path)
+    return files_data
 
 
 def find_duplicates(filelist):
-    duplicates = []
-    for file1, file2 in combinations(filelist, 2):
-        if cmp(file1, file2):
-            duplicates.append((file1, file2))
-    return duplicates
+    return [files_list for files_list in filelist.values() if len(files_list) > 1]
 
 
 def print_duplicates(duplicate_list):
     if not duplicate_list:
         print('Congratulations. You don\'t have duplicates in this directory.')
         return
-    for file1, file2 in duplicate_list:
-        print('Simular files {} and {}'.format(file1.path, file2.path))
+    for files in duplicate_list:
+        print('Simular files {}'.format(files))
 
 
 def create_parser():
-    result = argparse.ArgumentParser()
-    result.add_argument('path', help='Path to a directory')
-    return result
+    argument_parser = argparse.ArgumentParser()
+    argument_parser.add_argument('path', help='Path to a directory')
+    return argument_parser
 
 
 if __name__ == '__main__':
