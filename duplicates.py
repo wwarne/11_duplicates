@@ -6,9 +6,9 @@ from collections import defaultdict
 def build_filelist(path):
     files_data = defaultdict(list)
     for dirpath, dirnames, filenames in os.walk(path):
-        for filename in filenames:
-            path = os.path.join(dirpath, filename)
-            files_data[filename + str(os.path.getsize(path))].append(path)
+        for single_filename in filenames:
+            path = os.path.join(dirpath, single_filename)
+            files_data[single_filename + str(os.path.getsize(path))].append(path)
     return files_data
 
 
